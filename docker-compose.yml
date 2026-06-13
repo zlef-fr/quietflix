@@ -1,0 +1,8 @@
+services:
+  web:
+    build: .
+    container_name: quietflix
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      PORT: "10040"

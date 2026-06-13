@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QuietFlix</title>
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">QF</div>
+      <div class="brand">
+        <div class="name">QuietFlix</div>
+        <div class="sub">Preview volume, fixed</div>
+      </div>
+      <button id="power" class="status" title="Toggle QuietFlix">
+        <span class="dot"></span><span id="statusText">Active</span>
+      </button>
+    </header>
+
+    <main>
+      <section class="panel">
+        <div class="row">
+          <span class="lbl">Synced from player</span>
+          <span id="syncVal" class="val">—</span>
+        </div>
+        <div class="bar"><div id="syncFill" class="fill"></div></div>
+        <p id="syncNote" class="note">Previews on browse &amp; title pages now match this level.</p>
+      </section>
+
+      <section class="panel">
+        <div class="row">
+          <span class="lbl light">Preview offset</span>
+          <span id="offsetVal" class="val accent">70% of player</span>
+        </div>
+        <input id="offset" type="range" min="0" max="100" step="5" value="70" class="slider">
+        <p class="note">Keep previews a touch quieter than your shows.</p>
+      </section>
+
+      <div class="toggleRow">
+        <span class="lbl">Mute previews entirely</span>
+        <label class="switch">
+          <input id="muteAll" type="checkbox">
+          <span class="track"></span>
+        </label>
+      </div>
+    </main>
+
+    <footer>
+      <button id="resync" class="cta">Re-sync now</button>
+      <p class="foot">Works silently on netflix.com — no account, no tracking</p>
+    </footer>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

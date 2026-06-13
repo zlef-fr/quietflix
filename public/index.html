@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!--zlef-seo-->
+  <meta name="description" content="Netflix saves your player volume during a binge but blasts autoplay previews at full volume. QuietFlix is a tiny Chrome extension that silently mirrors your real player volume onto every preview — no more 2 a.m. trailer jump-scares. Free, no account, no tracking.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://quietflix.zlef.fr/">
+  <meta name="theme-color" content="#06060a">
+  <meta name="color-scheme" content="dark">
+  <link rel="icon" href="https://assets.zlef.fr/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="https://assets.zlef.fr/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="https://assets.zlef.fr/apple-touch-icon.png">
+  <link rel="manifest" href="https://assets.zlef.fr/site.webmanifest">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ZLEF">
+  <meta property="og:title" content="QuietFlix — Tame Netflix preview volume">
+  <meta property="og:description" content="A tiny Chrome extension that mirrors your real Netflix player volume onto every autoplay preview. No more full-volume trailers while you browse. Free, no account, no tracking.">
+  <meta property="og:url" content="https://quietflix.zlef.fr/">
+  <meta property="og:image" content="https://assets.zlef.fr/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="QuietFlix — Tame Netflix preview volume">
+  <meta name="twitter:description" content="A tiny Chrome extension that mirrors your real Netflix player volume onto every autoplay preview. No more full-volume trailers while you browse.">
+  <meta name="twitter:image" content="https://assets.zlef.fr/og-default.png">
+  <!--/zlef-seo-->
+  <title>QuietFlix — Tame Netflix preview volume</title>
+  <link rel="stylesheet" href="https://da.zlef.fr/tokens.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--zl-bg, #06060a);
+      color: var(--zl-text, #e9eae2);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    #zl-particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+    .shell { position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+    /* header */
+    header.bar {
+      position: sticky; top: 0; z-index: 5;
+      display: flex; align-items: center; gap: 12px;
+      padding: 16px 24px; max-width: 1080px; margin: 0 auto;
+      backdrop-filter: blur(8px);
+    }
+    .logo { width: 34px; height: 34px; border-radius: 8px; background: var(--zl-olive-base, #3e4618);
+      color: var(--zl-olive-bright, #bdce74); display: flex; align-items: center; justify-content: center;
+      font-size: 17px; font-weight: 700; flex-shrink: 0; }
+    .wordmark { font-size: 19px; font-weight: 700; letter-spacing: -0.02em; }
+    .wordmark span { color: var(--zl-olive-soft, #9dae50); }
+    .bar nav { margin-left: auto; display: flex; gap: 22px; align-items: center; }
+    .bar nav a { color: var(--zl-text-muted, #7d7e76); text-decoration: none; font-size: 14.5px; }
+    .bar nav a:hover { color: var(--zl-olive-soft, #9dae50); }
+    @media (max-width: 640px) { .bar nav a.hide-sm { display: none; } }
+
+    /* hero */
+    .hero { display: grid; grid-template-columns: 1.05fr .95fr; gap: 56px; align-items: center;
+      padding: 64px 0 80px; }
+    @media (max-width: 860px) { .hero { grid-template-columns: 1fr; gap: 40px; padding: 40px 0 56px; } }
+    .eyebrow { text-transform: uppercase; letter-spacing: 0.14em; font-size: 13px; font-weight: 550;
+      color: var(--zl-olive-soft, #9dae50); margin-bottom: 18px; }
+    h1 { font-size: clamp(36px, 6vw, 56px); line-height: 1.05; letter-spacing: -0.025em; font-weight: 700; }
+    h1 em { font-style: normal; color: var(--zl-olive-bright, #bdce74); }
+    .lede { color: var(--zl-text-soft, #b6b7ad); font-size: 19px; margin: 22px 0 32px; max-width: 30em; }
+    .cta-row { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+    .btn { display: inline-flex; align-items: center; gap: 9px; padding: 13px 22px; border-radius: 5px;
+      font-size: 15px; font-weight: 600; text-decoration: none; cursor: pointer; border: 1px solid transparent;
+      transition: background .15s ease, border-color .15s ease, color .15s ease; }
+    .btn--primary { background: var(--zl-olive-base, #3e4618); color: var(--zl-olive-bright, #bdce74); }
+    .btn--primary:hover { background: var(--zl-olive-mid, #59642a); }
+    .btn--ghost { border-color: rgba(255,255,255,.13); color: var(--zl-text, #e9eae2); }
+    .btn--ghost:hover { border-color: var(--zl-olive-soft, #9dae50); color: var(--zl-olive-soft, #9dae50); }
+    .meta { margin-top: 16px; font-size: 13px; color: var(--zl-text-muted, #7d7e76); display: flex; gap: 16px; flex-wrap: wrap; }
+    .meta b { color: var(--zl-text-soft, #b6b7ad); font-weight: 600; }
+
+    /* popup mockup */
+    .mock-wrap { display: flex; justify-content: center; }
+    .mock { width: 340px; max-width: 100%; background: #0e0e13; color: #e9eae2; border: 1px solid #1f1f29;
+      border-radius: 14px; overflow: hidden; box-shadow: 0 24px 60px rgba(0,0,0,.6); }
+    .mock .m-head { display: flex; align-items: center; gap: 10px; padding: 16px 18px; border-bottom: 1px solid #1f1f29; }
+    .m-logo { width: 30px; height: 30px; border-radius: 8px; background: #3e4618; color: #bdce74;
+      display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; }
+    .m-title { font-size: 15px; font-weight: 600; }
+    .m-sub { font-size: 11px; color: #7d7e76; }
+    .m-status { margin-left: auto; display: flex; align-items: center; gap: 7px; font-size: 11px; color: #bdce74; }
+    .m-dot { width: 8px; height: 8px; border-radius: 50%; background: #bdce74; display: inline-block; }
+    .mock .m-body { padding: 16px 18px; }
+    .m-panel { background: #15151c; border: 1px solid #1f1f29; border-radius: 10px; padding: 14px 15px; margin-bottom: 14px; }
+    .m-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 12px; color: #7d7e76; }
+    .m-row b { color: #e9eae2; font-size: 13px; font-weight: 600; }
+    .m-bar { height: 6px; border-radius: 3px; background: #23232e; overflow: hidden; }
+    .m-bar > div { height: 100%; background: #bdce74; }
+    .m-note { font-size: 11px; color: #7d7e76; margin-top: 9px; }
+    .m-track { height: 6px; border-radius: 3px; background: #23232e; position: relative; }
+    .m-track > .fill { height: 100%; border-radius: 3px; background: #3e4618; }
+    .m-track > .knob { position: absolute; top: -4px; width: 14px; height: 14px; border-radius: 50%; background: #bdce74; border: 2px solid #0e0e13; }
+    .m-toggle { display: flex; align-items: center; justify-content: space-between; padding: 4px 2px 2px; font-size: 12px; color: #7d7e76; }
+    .m-sw { width: 38px; height: 21px; border-radius: 11px; background: #23232e; position: relative; }
+    .m-sw > i { position: absolute; top: 2px; left: 2px; width: 17px; height: 17px; border-radius: 50%; background: #7d7e76; }
+    .mock .m-foot { padding: 0 18px 18px; }
+    .m-cta { width: 100%; padding: 11px; border: none; border-radius: 9px; background: #3e4618; color: #bdce74; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .m-foottext { text-align: center; font-size: 10px; color: #7d7e76; margin-top: 11px; }
+
+    /* sections */
+    section.block { padding: 56px 0; border-top: 1px solid rgba(255,255,255,.07); }
+    .s-eyebrow { text-transform: uppercase; letter-spacing: 0.14em; font-size: 13px; font-weight: 550;
+      color: var(--zl-olive-soft, #9dae50); margin-bottom: 14px; }
+    h2 { font-size: clamp(28px, 4vw, 38px); letter-spacing: -0.02em; line-height: 1.1; font-weight: 700; }
+    .s-lede { color: var(--zl-text-soft, #b6b7ad); margin-top: 16px; max-width: 40em; }
+
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 36px; }
+    @media (max-width: 760px) { .cards { grid-template-columns: 1fr; } }
+    .card { background: var(--zl-surface-1, #0e0e13); border: 1px solid rgba(255,255,255,.07);
+      border-radius: 8px; padding: 22px 20px; }
+    .card .ic { font-size: 22px; margin-bottom: 12px; }
+    .card h3 { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 8px; }
+    .card p { font-size: 15px; color: var(--zl-text-muted, #7d7e76); line-height: 1.55; }
+
+    /* steps */
+    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 36px; counter-reset: step; }
+    @media (max-width: 760px) { .steps { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 460px) { .steps { grid-template-columns: 1fr; } }
+    .step { background: var(--zl-surface-1, #0e0e13); border: 1px solid rgba(255,255,255,.07);
+      border-radius: 8px; padding: 20px; position: relative; }
+    .step .n { width: 28px; height: 28px; border-radius: 5px; background: var(--zl-olive-base, #3e4618);
+      color: var(--zl-olive-bright, #bdce74); font-weight: 700; font-size: 14px; display: flex;
+      align-items: center; justify-content: center; margin-bottom: 12px; }
+    .step h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+    .step p { font-size: 14px; color: var(--zl-text-muted, #7d7e76); line-height: 1.5; }
+    .step code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 13px;
+      color: var(--zl-olive-soft, #9dae50); background: var(--zl-surface-2, #15151c); padding: 1px 5px; border-radius: 3px; }
+
+    /* faq */
+    .faq { margin-top: 32px; display: grid; gap: 12px; }
+    details { background: var(--zl-surface-1, #0e0e13); border: 1px solid rgba(255,255,255,.07);
+      border-radius: 8px; padding: 0 20px; }
+    summary { cursor: pointer; padding: 18px 0; font-weight: 600; font-size: 16px; list-style: none;
+      display: flex; justify-content: space-between; align-items: center; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; color: var(--zl-olive-soft, #9dae50); font-size: 22px; font-weight: 400; }
+    details[open] summary::after { content: "–"; }
+    details p { padding: 0 0 18px; color: var(--zl-text-muted, #7d7e76); font-size: 15px; max-width: 60em; }
+    details p code { font-family: ui-monospace, Menlo, monospace; font-size: 13px; color: var(--zl-olive-soft, #9dae50); }
+
+    /* download banner */
+    .dl { text-align: center; padding: 64px 24px; border-top: 1px solid rgba(255,255,255,.07); }
+    .dl h2 { margin-bottom: 16px; }
+    .dl .s-lede { margin: 0 auto 28px; }
+
+    footer.zf { border-top: 1px solid rgba(255,255,255,.07); padding: 32px 24px 56px; }
+    footer.zf .inner { max-width: 1080px; margin: 0 auto; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    footer.zf a { color: var(--zl-text-muted, #7d7e76); text-decoration: none; font-size: 14px; }
+    footer.zf a:hover { color: var(--zl-olive-soft, #9dae50); }
+    footer.zf .sp { margin-left: auto; color: var(--zl-text-faint, #54554f); font-size: 13px; }
+  </style>
+</head>
+<body class="zl-scope">
+  <canvas id="zl-particles"></canvas>
+
+  <header class="bar">
+    <div class="logo">QF</div>
+    <div class="wordmark">Quiet<span>Flix</span></div>
+    <nav>
+      <a href="#how" class="hide-sm">How it works</a>
+      <a href="#install" class="hide-sm">Install</a>
+      <a href="#faq" class="hide-sm">FAQ</a>
+      <a href="/quietflix.zip" download>Download</a>
+    </nav>
+  </header>
+
+  <div class="shell">
+    <!-- HERO -->
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Chrome extension · Free</div>
+        <h1>Set your volume once.<br><em>Every Netflix preview obeys it.</em></h1>
+        <p class="lede">Netflix remembers your player volume during a binge — then blasts autoplay
+          previews on the browse and title pages at full volume. QuietFlix silently mirrors your
+          real player level onto every preview. No more 2&nbsp;a.m. trailer jump-scares.</p>
+        <div class="cta-row">
+          <a class="btn btn--primary" href="/quietflix.zip" download>↓ Download extension</a>
+          <a class="btn btn--ghost" href="#install">Install in 60 seconds</a>
+        </div>
+        <div class="meta">
+          <span><b>No account</b> · nothing to sign up for</span>
+          <span><b>No tracking</b> · runs only on netflix.com</span>
+          <span><b>Manifest V3</b></span>
+        </div>
+      </div>
+
+      <div class="mock-wrap">
+        <div class="mock">
+          <div class="m-head">
+            <div class="m-logo">QF</div>
+            <div>
+              <div class="m-title">QuietFlix</div>
+              <div class="m-sub">Preview volume, fixed</div>
+            </div>
+            <div class="m-status"><span class="m-dot"></span>Active</div>
+          </div>
+          <div class="m-body">
+            <div class="m-panel">
+              <div class="m-row"><span>Synced from player</span><b>42%</b></div>
+              <div class="m-bar"><div style="width:42%"></div></div>
+              <div class="m-note">Previews on browse &amp; title pages now match this level.</div>
+            </div>
+            <div class="m-panel">
+              <div class="m-row"><span style="color:#e9eae2">Preview offset</span><span style="color:#bdce74">70% of player</span></div>
+              <div class="m-track"><div class="fill" style="width:70%"></div><div class="knob" style="left:68%"></div></div>
+              <div class="m-note">Keep previews a touch quieter than your shows.</div>
+            </div>
+            <div class="m-toggle"><span>Mute previews entirely</span><div class="m-sw"><i></i></div></div>
+          </div>
+          <div class="m-foot">
+            <button class="m-cta">Re-sync now</button>
+            <div class="m-foottext">Works silently on netflix.com — no account, no tracking</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- PROBLEM / VALUE -->
+  <section class="block" id="why">
+    <div class="shell">
+      <div class="s-eyebrow">The daily micro-irritation</div>
+      <h2>Keep the previews. Lose the volume spike.</h2>
+      <p class="s-lede">Netflix's only built-in fix is turning previews off completely — which kills
+        useful discovery. QuietFlix keeps previews and just fixes what's broken: the volume.</p>
+      <div class="cards">
+        <div class="card">
+          <div class="ic">🔇</div>
+          <h3>No more jump-scares</h3>
+          <p>Previews respect the exact level you set in the player. Never get blasted while browsing
+             late at night next to a sleeping partner.</p>
+        </div>
+        <div class="card">
+          <div class="ic">🎬</div>
+          <h3>Previews stay on</h3>
+          <p>You don't have to disable autoplay to get peace. Discovery keeps working — the trailers
+             just play at a sane volume.</p>
+        </div>
+        <div class="card">
+          <div class="ic">🪶</div>
+          <h3>Truly set-and-forget</h3>
+          <p>It reads your real player volume automatically and stays in sync. No dashboard to manage.
+             Install once, never think about it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="block" id="how">
+    <div class="shell">
+      <div class="s-eyebrow">Under the hood</div>
+      <h2>How it works</h2>
+      <p class="s-lede">A single tiny content script — no remote code, no accounts, no network calls.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="n">1</div>
+          <h3>Reads your player</h3>
+          <p>When you set volume in the real Netflix player, QuietFlix captures that level as the source of truth.</p>
+        </div>
+        <div class="step">
+          <div class="n">2</div>
+          <h3>Levels every preview</h3>
+          <p>On browse, title and search pages it clamps each preview's audio to match — optionally a touch quieter.</p>
+        </div>
+        <div class="step">
+          <div class="n">3</div>
+          <h3>Survives Netflix</h3>
+          <p>A MutationObserver + watchdog catch lazy-loaded previews and SPA navigation, re-applying instantly.</p>
+        </div>
+        <div class="step">
+          <div class="n">4</div>
+          <h3>Stays out of the way</h3>
+          <p>No UI unless you want it. A minimal popup offers an offset slider and a full-mute toggle.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTALL -->
+  <section class="block" id="install">
+    <div class="shell">
+      <div class="s-eyebrow">60-second install</div>
+      <h2>Load it into Chrome</h2>
+      <p class="s-lede">Not on the Web Store yet — it loads as an unpacked extension. Works in Chrome,
+        Edge, Brave and any Chromium browser.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="n">1</div>
+          <h3>Download &amp; unzip</h3>
+          <p>Grab <a href="/quietflix.zip" download style="color:var(--zl-olive-soft)">quietflix.zip</a> and extract it anywhere.</p>
+        </div>
+        <div class="step">
+          <div class="n">2</div>
+          <h3>Open extensions</h3>
+          <p>Go to <code>chrome://extensions</code> and turn on <b>Developer mode</b> (top right).</p>
+        </div>
+        <div class="step">
+          <div class="n">3</div>
+          <h3>Load unpacked</h3>
+          <p>Click <b>Load unpacked</b> and select the unzipped <code>quietflix</code> folder.</p>
+        </div>
+        <div class="step">
+          <div class="n">4</div>
+          <h3>Watch Netflix</h3>
+          <p>Play something once to capture your volume. Previews now match. Done.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="block" id="faq">
+    <div class="shell">
+      <div class="s-eyebrow">Questions</div>
+      <h2>Good to know</h2>
+      <div class="faq">
+        <details open>
+          <summary>Does it collect any data?</summary>
+          <p>No. There are no accounts, no analytics, and no network requests. The only permission it
+             holds is <code>storage</code> (to remember your settings) and host access to
+             <code>netflix.com</code>. Nothing ever leaves your browser.</p>
+        </details>
+        <details>
+          <summary>Will it slow down Netflix?</summary>
+          <p>No. It's a single small content script that only touches <code>&lt;video&gt;</code> elements
+             on Netflix. There's no measurable performance footprint.</p>
+        </details>
+        <details>
+          <summary>The previews aren't matching — what do I do?</summary>
+          <p>Press play in the real player once so QuietFlix can capture your actual volume, then open the
+             popup and hit <b>Re-sync now</b>. If Netflix changed something under the hood, the watchdog
+             usually recovers on its own within a second.</p>
+        </details>
+        <details>
+          <summary>Can I make previews quieter than my shows?</summary>
+          <p>Yes. Use the <b>preview offset</b> slider in the popup — e.g. set previews to 70% of your
+             player volume. Or flip <b>Mute previews entirely</b> for total silence while keeping the visuals.</p>
+        </details>
+        <details>
+          <summary>Why isn't it on the Chrome Web Store?</summary>
+          <p>It's a single-purpose free utility shipped unpacked for now. Loading unpacked takes about a
+             minute (see <a href="#install" style="color:var(--zl-olive-soft)">Install</a>) and keeps it
+             fully transparent — you can read every line of the source in the zip.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOWNLOAD -->
+  <section class="dl" id="get">
+    <div class="s-eyebrow" style="margin-bottom:14px">Free forever</div>
+    <h2>Quiet the previews tonight.</h2>
+    <p class="s-lede">One small file. No account. No tracking. Just the volume Netflix should've shipped.</p>
+    <a class="btn btn--primary" href="/quietflix.zip" download>↓ Download QuietFlix</a>
+  </section>
+
+  <footer class="zf">
+    <div class="inner">
+      <div class="logo" style="width:28px;height:28px;font-size:14px">QF</div>
+      <a href="/quietflix.zip" download>Download</a>
+      <a href="#how">How it works</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://projects.zlef.fr">More by ZLEF</a>
+      <span class="sp">A ZLEF project · zlef.fr</span>
+    </div>
+  </footer>
+
+  <script src="https://assets.zlef.fr/particles.js" defer></script>
+  <script defer src="https://assets.zlef.fr/track.js"></script>
+</body>
+</html>
