@@ -114,7 +114,7 @@ https://quietflix.zlef.fr/privacy
 | Screenshot 4 (privacy) | `screenshot-4-privacy.png` | 1280×800 | optional |
 | Screenshot 5 (how it works) | `screenshot-5-how.png` | 1280×800 | optional |
 | Small promo tile | `promo-small-440x280.png` | 440×280 | optional (recommended) |
-| Marquee promo tile | `promo-marquee-1440x560.png` | 1440×560 | optional |
+| Marquee promo tile | `promo-marquee-1400x560.png` | 1400×560 | optional |
 
 (Up to 5 screenshots allowed — all 5 included.)
 

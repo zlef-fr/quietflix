@@ -150,8 +150,8 @@ const promoSmall = frame(440,280, `
     <div style="font-size:14px;color:${C.muted};margin-top:12px">No more full-volume trailers while you browse.</div>
   </div>`);
 
-// Marquee promo tile 1440x560
-const promoMarquee = frame(1440,560, `${tileField()}
+// Marquee promo tile 1400x560
+const promoMarquee = frame(1400,560, `${tileField()}
   <div style="position:relative;height:100%;display:grid;grid-template-columns:1.1fr .9fr;align-items:center;padding:0 90px;gap:40px">
     <div>
       <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px">
@@ -173,7 +173,7 @@ const promoMarquee = frame(1440,560, `${tileField()}
     ['screenshot-4-privacy.png', W, H, s4],
     ['screenshot-5-how.png', W, H, s5],
     ['promo-small-440x280.png', 440, 280, promoSmall],
-    ['promo-marquee-1440x560.png', 1440, 560, promoMarquee],
+    ['promo-marquee-1400x560.png', 1400, 560, promoMarquee],
   ];
   for (const [name, w, h, html] of jobs) {
     const p = await b.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: 1 });
