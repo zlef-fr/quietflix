@@ -25,6 +25,8 @@ const server = http.createServer((req, res) => {
   try {
     let p = decodeURIComponent(new URL(req.url, 'http://x').pathname);
     if (p === '/') p = '/index.html';
+    // extensionless pretty paths (e.g. /privacy) → /privacy.html
+    if (!path.extname(p) && fs.existsSync(path.join(ROOT, p + '.html'))) p += '.html';
     const file = path.normalize(path.join(ROOT, p));
     if (!file.startsWith(ROOT)) { res.writeHead(403); return res.end('forbidden'); }
     fs.readFile(file, (err, buf) => {
