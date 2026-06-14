@@ -1,8 +1,8 @@
 # QuietFlix — Reddit launch drafts
 
-Publish **after** the extension is live on the Chrome Web Store. Replace `https://chromewebstore.google.com/detail/mbgdbocfhifgaahepbijkcedkleahpok`
-with the listing URL everywhere. Reddit etiquette notes at the bottom — read them, the
-posts will get removed otherwise.
+The extension is live — store links below are the real listing
+(https://chromewebstore.google.com/detail/mbgdbocfhifgaahepbijkcedkleahpok), ready to post.
+Read the Reddit etiquette notes at the bottom — the posts get removed otherwise.
 
 ---
 
