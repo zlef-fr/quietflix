@@ -77,6 +77,13 @@
     .btn--ghost:hover { border-color: var(--zl-olive-soft, #9dae50); color: var(--zl-olive-soft, #9dae50); }
     .meta { margin-top: 16px; font-size: 13px; color: var(--zl-text-muted, #7d7e76); display: flex; gap: 16px; flex-wrap: wrap; }
     .meta b { color: var(--zl-text-soft, #b6b7ad); font-weight: 600; }
+    .review-note { margin-top: 14px; font-size: 13.5px; color: var(--zl-text-muted, #7d7e76);
+      display: inline-flex; align-items: center; gap: 8px; background: var(--zl-surface-1, #0e0e13);
+      border: 1px solid rgba(255,255,255,.08); border-radius: 999px; padding: 7px 14px; }
+    .review-note .pip { width: 8px; height: 8px; border-radius: 50%; background: var(--zl-warning, #c79a3e);
+      box-shadow: 0 0 0 3px rgba(199,154,62,.15); flex-shrink: 0; }
+    .review-note a { color: var(--zl-olive-soft, #9dae50); text-decoration: none; }
+    .review-note a:hover { text-decoration: underline; }
 
     /* popup mockup */
     .mock-wrap { display: flex; justify-content: center; }
@@ -169,7 +176,7 @@
       <a href="#how" class="hide-sm">How it works</a>
       <a href="#install" class="hide-sm">Install</a>
       <a href="#faq" class="hide-sm">FAQ</a>
-      <a href="/quietflix.zip" download>Download</a>
+      <a href="https://chromewebstore.google.com/detail/mbgdbocfhifgaahepbijkcedkleahpok" target="_blank" rel="noopener">Add to Chrome</a>
     </nav>
   </header>
 
@@ -183,8 +190,12 @@
           previews on the browse and title pages at full volume. QuietFlix silently mirrors your
           real player level onto every preview. No more 2&nbsp;a.m. trailer jump-scares.</p>
         <div class="cta-row">
-          <a class="btn btn--primary" href="/quietflix.zip" download>↓ Download extension</a>
-          <a class="btn btn--ghost" href="#install">Install in 60 seconds</a>
+          <a class="btn btn--primary" href="https://chromewebstore.google.com/detail/mbgdbocfhifgaahepbijkcedkleahpok" target="_blank" rel="noopener">Add to Chrome — Free</a>
+          <a class="btn btn--ghost" href="#install">Install manually</a>
+        </div>
+        <div class="review-note">
+          <span class="pip"></span>
+          <span>Currently in <b>Chrome Web Store review</b> — the button works once it's approved. You can <a href="#install">install it manually</a> in the meantime.</span>
         </div>
         <div class="meta">
           <span><b>No account</b> · nothing to sign up for</span>
@@ -291,8 +302,8 @@
     <div class="shell">
       <div class="s-eyebrow">60-second install</div>
       <h2>Load it into Chrome</h2>
-      <p class="s-lede">Not on the Web Store yet — it loads as an unpacked extension. Works in Chrome,
-        Edge, Brave and any Chromium browser.</p>
+      <p class="s-lede">The Chrome Web Store listing is <b>pending review</b>. Until it's approved you can
+        install it right now as an unpacked extension — works in Chrome, Edge, Brave and any Chromium browser.</p>
       <div class="steps">
         <div class="step">
           <div class="n">1</div>
@@ -360,8 +371,11 @@
   <section class="dl" id="get">
     <div class="s-eyebrow" style="margin-bottom:14px">Free forever</div>
     <h2>Quiet the previews tonight.</h2>
-    <p class="s-lede">One small file. No account. No tracking. Just the volume Netflix should've shipped.</p>
-    <a class="btn btn--primary" href="/quietflix.zip" download>↓ Download QuietFlix</a>
+    <p class="s-lede">No account. No tracking. Just the volume Netflix should've shipped.</p>
+    <div class="cta-row" style="justify-content:center">
+      <a class="btn btn--primary" href="https://chromewebstore.google.com/detail/mbgdbocfhifgaahepbijkcedkleahpok" target="_blank" rel="noopener">Add to Chrome — Free</a>
+      <a class="btn btn--ghost" href="/quietflix.zip" download>↓ Download .zip (manual install)</a>
+    </div>
   </section>
 
   <footer class="zf">
