@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "QuietFlix — Tame Netflix Preview Volume",
   "version": "1.0.0",
-  "description": "Netflix autoplay previews blast at full volume. QuietFlix silently mirrors your real player volume to every preview. No more 2 a.m. trailer jump-scares.",
+  "description": "Mirrors your real Netflix player volume onto autoplay previews, so trailers stop blasting at full volume while you browse.",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
