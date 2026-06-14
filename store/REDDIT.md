@@ -1,6 +1,6 @@
 # QuietFlix — Reddit launch drafts
 
-Publish **after** the extension is live on the Chrome Web Store. Replace `[STORE_LINK]`
+Publish **after** the extension is live on the Chrome Web Store. Replace `https://chromewebstore.google.com/detail/mbgdbocfhifgaahepbijkcedkleahpok`
 with the listing URL everywhere. Reddit etiquette notes at the bottom — read them, the
 posts will get removed otherwise.
 
@@ -28,7 +28,7 @@ visuals but no sound.
 
 It's free, has no account, doesn't track anything, and only runs on netflix.com.
 
-Link: [STORE_LINK]
+Link: https://chromewebstore.google.com/detail/mbgdbocfhifgaahepbijkcedkleahpok
 
 Curious if I'm the only one this drove crazy, or if it's a common annoyance. Open to feedback.
 ```
@@ -55,7 +55,7 @@ Tech notes for anyone curious:
   no network calls
 - Optional offset slider + full-mute toggle in the popup
 
-Free, no account: [STORE_LINK]
+Free, no account: https://chromewebstore.google.com/detail/mbgdbocfhifgaahepbijkcedkleahpok
 
 Happy to answer questions about the approach (targeting media-element semantics instead of CSS
 classes so it survives Netflix UI changes was the interesting part).
@@ -77,7 +77,7 @@ blasted while browsing.
 No account, no tracking, no network calls — just a small content script that runs on netflix.com.
 There's an optional "previews at X% of player" slider and a full-mute toggle.
 
-Store: [STORE_LINK]
+Store: https://chromewebstore.google.com/detail/mbgdbocfhifgaahepbijkcedkleahpok
 Landing page: https://quietflix.zlef.fr
 
 Would love feedback, and I'm interested in whether people want the same thing for Prime Video /
