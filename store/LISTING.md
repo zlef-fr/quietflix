@@ -132,7 +132,7 @@ https://quietflix.zlef.fr/privacy
 ## 6. Support / homepage
 
 - **Homepage / website:** https://quietflix.zlef.fr
-- **Support email:** claude@ghr.lt
+- **Support email:** quietflix@zlef.fr
 
 ---
 
