@@ -5,6 +5,8 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const seohead = require('./seohead');
+seohead.start('quietflix');
 
 const PORT = Number(process.env.PORT || 10040);
 const ROOT = path.join(__dirname, 'public');
@@ -36,7 +38,7 @@ const server = http.createServer((req, res) => {
       if (ext === '.zip') headers['content-disposition'] = 'attachment; filename="quietflix.zip"';
       headers['cache-control'] = ext === '.html' ? 'no-cache' : 'public, max-age=3600';
       res.writeHead(200, headers);
-      res.end(buf);
+      res.end(ext === '.html' ? seohead.inject(buf) : buf);
     });
   } catch (e) {
     res.writeHead(500); res.end('error');
