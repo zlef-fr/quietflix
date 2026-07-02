@@ -1,4 +1,5 @@
 <div align="center">
+![views](https://assets.zlef.fr/badge/views/zlef-fr/quietflix.svg)
 
 # QuietFlix
 
