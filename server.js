@@ -30,7 +30,7 @@ const server = http.createServer((req, res) => {
     // extensionless pretty paths (e.g. /privacy) → /privacy.html
     if (!path.extname(p) && fs.existsSync(path.join(ROOT, p + '.html'))) p += '.html';
     const file = path.normalize(path.join(ROOT, p));
-    if (!file.startsWith(ROOT)) { res.writeHead(403); return res.end('forbidden'); }
+    if (file !== ROOT && !file.startsWith(ROOT + path.sep)) { res.writeHead(403); return res.end('forbidden'); }
     fs.readFile(file, (err, buf) => {
       if (err) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
       const ext = path.extname(file).toLowerCase();
